@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("../models/UserSchema");
 
 const getAllUsers = async (req, res) => {
     try {
@@ -25,7 +26,7 @@ const createUser = async (req, res) => {
     const { username, email, passwordHash}= req.body;
 
     try {
-        const newUser = await newUser.create({
+        const newUser = await User.create({
             username,
             email,
             passwordHash
