@@ -10,4 +10,8 @@ router.delete('/:id', deletePost);
 
 router.get("/:id", getSinglePost);
 
+router.post("/", createPost);
+
+
+
 module.exports = router
