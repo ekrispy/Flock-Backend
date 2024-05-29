@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// const Post = require("../models/Post");
+const Post = require("../models/postsSchema");
 
 
 // get all posts
@@ -23,4 +23,27 @@ const getSinglePost = async (req, res) => {
     }
 }
 
-module.exports = { getAllPosts, getSinglePost }
+// create post
+const createPost = async (req, res) => {
+    try {
+        console.log(req.body)
+        const post = await Post.create(req.body)
+        res.status(200).json(post)
+    } catch(err) {
+        console.log(err.message)
+        res.status(400).json(err)
+    }
+}
+
+// delete post
+const deletePost = async (req, res) => {
+    try {
+        await Post.findByIdAndDelete(req.params.id)
+        res.status(200).json({ message: 'successfully deleted' })
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).json(err)
+    }
+}
+
+module.exports = { getAllPosts, getSinglePost, createPost, deletePost }
