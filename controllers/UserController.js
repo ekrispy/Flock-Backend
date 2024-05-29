@@ -22,14 +22,19 @@ const getSingleUser = async (req, res) => {
 
 // create new user
 const createUser = async (req, res) => {
-    const user = req.body;
-    const newUser = new User(user);
+    const { username, email, passwordHash}= req.body;
+
     try {
-        await newUser.save();
-        res.status(201).json(newUser);
+        const newUser = await newUser.create({
+            username,
+            email,
+            passwordHash
+        });
+        res.status(200).json(newUser);
     } catch (error) {
         res.status(409).json({ message: error.message });
-    }
+    
+}
 }
 
 module.exports = { getAllUsers, getSingleUser, createUser }
