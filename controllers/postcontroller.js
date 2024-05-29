@@ -23,17 +23,8 @@ const getSinglePost = async (req, res) => {
     }
 }
 
-// create post
-const createPost = async (req, res) => {
-    try {
-        console.log(req.body)
-        const post = await Post.create(req.body)
-        res.status(200).json(post)
-    } catch(err) {
-        console.log(err.message)
-        res.status(400).json(err)
-    }
-}
+
+
 
 // delete post
 const deletePost = async (req, res) => {
@@ -46,4 +37,18 @@ const deletePost = async (req, res) => {
     }
 }
 
+
+// create new post
+const createPost = async (req, res) => {
+    const post = req.body;
+    const newPost = new Post({ ...post, creator: req.userId, createdAt: new Date().toISOString() });
+    try {
+        await newPost.save();
+        res.status(201).json(newPost);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+}
+
 module.exports = { getAllPosts, getSinglePost, createPost, deletePost }
+
